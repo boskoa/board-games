@@ -1,0 +1,9 @@
+POST http://localhost:3003/api/matches
+Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjYwNTA0NTAwfQ.vDGbHAiUl1GSJPluvfsGQ5c3LqdURaY82SEwoumL6kU
+
+{
+    "game": "tictactoe",
+    "winnerId": 3,
+    "loserId": 1
+}
