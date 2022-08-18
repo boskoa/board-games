@@ -25,5 +25,6 @@ module.exports = {
         unnamedComponents: 'arrow-function',
       },
     ],
+    'react/prop-types': 'off',
   },
 };

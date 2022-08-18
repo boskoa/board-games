@@ -20,7 +20,7 @@ router.post('/', async (req, res, next) => {
   }
 
   if (user.disabled) {
-    return res.status(401).json({ error: 'Account disbled' });
+    return res.status(401).json({ error: 'Account disabled' });
   }
 
   const passwordCorrect = await bcrypt.compare(req.body.password, user.passwordHash);
