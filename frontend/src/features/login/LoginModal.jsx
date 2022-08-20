@@ -17,14 +17,11 @@ const MyPaper = styled(Paper)(({ theme }) => ({
   borderRadius: 3,
 }));
 
-const LoginModal = ({ user }) => {
+const LoginModal = ({ user, open, handleClose }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [open, setOpen] = useState(false);
   const dispatch = useDispatch();
 
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
   const handleLogin = () => {
     dispatch(loginUser({ username, password, user }));
     handleClose();
@@ -33,7 +30,6 @@ const LoginModal = ({ user }) => {
 
   return (
     <div>
-      <Button onClick={handleOpen}>Open modal</Button>
       <Modal
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"

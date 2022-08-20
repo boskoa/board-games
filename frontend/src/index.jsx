@@ -1,4 +1,5 @@
 import { ThemeProvider } from '@emotion/react';
+import { CssBaseline } from '@mui/material';
 import { createTheme } from '@mui/material/styles';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
@@ -13,7 +14,8 @@ const lightTheme = createTheme({});
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <Provider store={store}>
-    <ThemeProvider theme={lightTheme}>
+    <ThemeProvider theme={lightTheme} enableColorScheme>
+      <CssBaseline />
       <App />
     </ThemeProvider>
   </Provider>,

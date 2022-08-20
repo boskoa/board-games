@@ -28,6 +28,10 @@ const loginSlice = createSlice({
       action.payload.id = Number(action.payload.id);
       loginAdapter.addOne(state, action.payload);
     },
+    logout: (state, action) => {
+      action.payload = Number(action.payload);
+      loginAdapter.removeOne(state, action.payload);
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -43,6 +47,6 @@ export const {
   selectIds: selectLoginIds,
 } = loginAdapter.getSelectors((state) => state.login);
 
-export const { alreadyLogged } = loginSlice.actions;
+export const { alreadyLogged, logout } = loginSlice.actions;
 
 export default loginSlice.reducer;
