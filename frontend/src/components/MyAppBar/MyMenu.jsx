@@ -1,28 +1,28 @@
-import { styled, MenuItem, Menu } from '@mui/material';
+import {
+  styled, MenuItem, Menu, Slide, Typography,
+} from '@mui/material';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectDic } from '../../features/dictionary/dictionarySlice';
 import { logout, selectLoginsById } from '../../features/login/loginSlice';
 
-const MyStyledMenu = styled(Menu)(({ theme }) => ({
+export const MyStyledMenu = styled(Menu)(({ theme }) => ({
   '& .MuiMenu-paper': {
-    backgroundColor: theme.palette.primary.main,
-    color: theme.palette.primary.contrastText,
+    backgroundColor: theme.palette.error.main,
+    color: theme.palette.error.contrastText,
+    marginTop: 6,
   },
+  zIndex: 1099,
 }));
-
-// dodati dole da prikazuje Item "login" ukoliko igrač nije ulogovan
 
 const MyMenu = ({
   anchorEl, handleClose, id, handleOpenModal,
 }) => {
   const loggedIn = useSelector((state) => selectLoginsById(state, id));
   const dispatch = useDispatch();
-  console.log('LOGGEDIN', loggedIn);
   const dic = useSelector(selectDic);
 
   const handleLogout = () => {
-    console.log('dodati logout u reducer');
     window.localStorage.removeItem(`loggedGamerUser${id}`);
     dispatch(logout(id));
     handleClose();
@@ -38,7 +38,7 @@ const MyMenu = ({
       id={id}
       anchorEl={anchorEl}
       anchorOrigin={{
-        vertical: 'top',
+        vertical: 'bottom',
         horizontal: 'right',
       }}
       keepMounted
@@ -46,16 +46,23 @@ const MyMenu = ({
         vertical: 'top',
         horizontal: 'right',
       }}
+      TransitionComponent={Slide}
       open={Boolean(anchorEl)}
       onClose={handleClose}
     >
       {loggedIn ? (
         <div>
-          <MenuItem onClick={handleClose}>{dic.profile}</MenuItem>
-          <MenuItem onClick={handleLogout}>{dic.logout}</MenuItem>
+          <MenuItem onClick={handleClose}>
+            <Typography>{loggedIn.name}</Typography>
+          </MenuItem>
+          <MenuItem onClick={handleLogout}>
+            <Typography>{dic.logout}</Typography>
+          </MenuItem>
         </div>
       ) : (
-        <MenuItem onClick={handleLogin}>{dic.login}</MenuItem>
+        <MenuItem onClick={handleLogin}>
+          <Typography>{dic.login}</Typography>
+        </MenuItem>
       )}
     </MyStyledMenu>
   );

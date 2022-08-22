@@ -1,13 +1,13 @@
 /* eslint-disable no-nested-ternary */
 /* eslint-disable no-unused-expressions */
-import { Button } from '@mui/material';
+import { Button, Typography, Stack } from '@mui/material';
 import React, { useState } from 'react';
 
 const Item = ({
-  field, player = 0, fields, setFields, setPlayer,
+  field, player = 0, fields, setFields, setPlayer, winner,
 }) => {
   const [color, setColor] = useState('primary');
-  const disabled = [1, 2].includes(field.value);
+  const disabled = [1, 2].includes(field.value) || winner;
 
   const handleClick = () => {
     if (!disabled) {
@@ -26,14 +26,22 @@ const Item = ({
   };
 
   return (
-    <Button
-      sx={{ width: '90%', height: '90%', m: 1 }}
-      variant="contained"
-      color={color}
-      onClick={handleClick}
+    <Stack
+      justifyContent="center"
+      alignItems="center"
+      sx={{
+        width: '32%', height: '100%', maxHeight: 200, m: 1,
+      }}
     >
-      {field.name}
-    </Button>
+      <Button
+        variant="contained"
+        color={color}
+        onClick={handleClick}
+        sx={{ width: '100%', height: '100%' }}
+      >
+        <Typography variant="h2">{field.name}</Typography>
+      </Button>
+    </Stack>
   );
 };
 

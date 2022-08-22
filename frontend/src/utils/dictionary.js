@@ -11,6 +11,11 @@ export const dictionary = [
     profile: 'Profile',
     logout: 'Log out',
     login: 'Log in',
+    appName: 'Simple Games',
+    darkTheme: 'Dark theme',
+    ticTacToe: 'Tic Tac Toe',
+    won: 'won!',
+    newGame: 'New game',
   },
   {
     player: 'Igrač',
@@ -23,5 +28,10 @@ export const dictionary = [
     profile: 'Profil',
     logout: 'Odjava',
     login: 'Prijava',
+    appName: 'Igrice',
+    darkTheme: 'Tamna tema',
+    ticTacToe: 'Isk Ošk',
+    won: 'je pobednik!',
+    newGame: 'Nova igra',
   },
 ];
