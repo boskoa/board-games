@@ -1,9 +1,10 @@
 /* eslint-disable react/jsx-boolean-value */
 import { Button, Stack, Typography } from '@mui/material';
 import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { selectDic } from '../../../features/dictionary/dictionarySlice';
 import { selectAllLogins } from '../../../features/login/loginSlice';
+import { newMatch } from '../../../features/matches/matchesSlice';
 import WinnerModal from '../../WinnerModal';
 import Item from './Item';
 
@@ -66,6 +67,7 @@ const TicTacToe = () => {
   const handleClose = () => setOpen(false);
   const [fields, setFields] = useState(startFields);
   const dic = useSelector(selectDic);
+  const dispatch = useDispatch();
 
   const checkForWin = () => {
     const previousPlayer = player === 1 ? 2 : 1;
@@ -82,6 +84,14 @@ const TicTacToe = () => {
     ) {
       setWinner(true);
       setWPlayer(players.find((p) => p.id === previousPlayer).name);
+      const token = players[0].token || players[1].token;
+      const loserT = players.find((p) => p.id !== previousPlayer);
+      dispatch(newMatch({
+        token,
+        matchData: {
+          game: 'tic_tac_toe', winnerId: previousPlayer, loserId: loserT.id,
+        },
+      }));
       handleOpen();
     }
   };
@@ -134,6 +144,7 @@ const TicTacToe = () => {
           fields={fields}
           setFields={setFields}
           winner={winner}
+          players={players}
         />
         <Item
           field={fields[1]}
@@ -142,6 +153,7 @@ const TicTacToe = () => {
           fields={fields}
           setFields={setFields}
           winner={winner}
+          players={players}
         />
         <Item
           field={fields[2]}
@@ -150,6 +162,7 @@ const TicTacToe = () => {
           fields={fields}
           setFields={setFields}
           winner={winner}
+          players={players}
         />
       </Stack>
       <Stack
@@ -171,6 +184,7 @@ const TicTacToe = () => {
           fields={fields}
           setFields={setFields}
           winner={winner}
+          players={players}
         />
         <Item
           field={fields[4]}
@@ -179,6 +193,7 @@ const TicTacToe = () => {
           fields={fields}
           setFields={setFields}
           winner={winner}
+          players={players}
         />
         <Item
           field={fields[5]}
@@ -187,6 +202,7 @@ const TicTacToe = () => {
           fields={fields}
           setFields={setFields}
           winner={winner}
+          players={players}
         />
       </Stack>
       <Stack
@@ -208,6 +224,7 @@ const TicTacToe = () => {
           fields={fields}
           setFields={setFields}
           winner={winner}
+          players={players}
         />
         <Item
           field={fields[7]}
@@ -216,6 +233,7 @@ const TicTacToe = () => {
           fields={fields}
           setFields={setFields}
           winner={winner}
+          players={players}
         />
         <Item
           field={fields[8]}
@@ -224,9 +242,10 @@ const TicTacToe = () => {
           fields={fields}
           setFields={setFields}
           winner={winner}
+          players={players}
         />
       </Stack>
-      <Button variant="contained" size="large" color="secondary" onClick={handleNewGame}>
+      <Button variant="contained" size="large" color="success" onClick={handleNewGame}>
         <Typography variant="h6">{dic.newGame}</Typography>
       </Button>
       <WinnerModal winner={wPlayer} open={open} handleClose={handleClose} />

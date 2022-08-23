@@ -16,6 +16,11 @@ export const dictionary = [
     ticTacToe: 'Tic Tac Toe',
     won: 'won!',
     newGame: 'New game',
+    registration: 'Registration',
+    username: 'Username',
+    name: 'Name',
+    password: 'Password',
+    cancel: 'Cancel',
   },
   {
     player: 'Igrač',
@@ -33,5 +38,10 @@ export const dictionary = [
     ticTacToe: 'Isk Ošk',
     won: 'je pobednik!',
     newGame: 'Nova igra',
+    registration: 'Registracija',
+    username: 'Korisničko ime',
+    name: 'Ime',
+    password: 'Lozinka',
+    cancel: 'Poništi',
   },
 ];

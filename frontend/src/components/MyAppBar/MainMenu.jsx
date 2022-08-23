@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import MenuIcon from '@mui/icons-material/Menu';
 import { changeDic, selectDic } from '../../features/dictionary/dictionarySlice';
 import { MyStyledMenu } from './MyMenu';
+import RegistrationModal from '../../features/users/RegistrationModal';
 
 const StyledButton = styled(IconButton)(() => ({
   color: 'inherit',
@@ -17,6 +18,10 @@ const MainMenu = ({ dark, setDark }) => {
   const open = Boolean(anchorEl);
   const dic = useSelector(selectDic);
   const dispatch = useDispatch();
+  const [openModal, setOpenModal] = useState(false);
+
+  const handleOpenModal = () => setOpenModal(true);
+  const handleCloseModal = () => setOpenModal(false);
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -72,6 +77,9 @@ const MainMenu = ({ dark, setDark }) => {
           <Typography sx={{ m: 'auto' }}>{dic.menu}</Typography>
         </MenuItem>
         <Divider />
+        <MenuItem onClick={handleOpenModal}>
+          <Typography>{dic.registration}</Typography>
+        </MenuItem>
         <MenuItem onClick={handleClose}>
           <Typography>{dic.players}</Typography>
         </MenuItem>
@@ -106,6 +114,7 @@ const MainMenu = ({ dark, setDark }) => {
           </Stack>
         </MenuItem>
       </MyStyledMenu>
+      <RegistrationModal open={openModal} handleClose={handleCloseModal} />
     </div>
   );
 };

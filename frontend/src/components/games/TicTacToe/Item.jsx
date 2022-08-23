@@ -4,10 +4,10 @@ import { Button, Typography, Stack } from '@mui/material';
 import React, { useState } from 'react';
 
 const Item = ({
-  field, player = 0, fields, setFields, setPlayer, winner,
+  field, player = 0, fields, setFields, setPlayer, winner, players,
 }) => {
   const [color, setColor] = useState('primary');
-  const disabled = [1, 2].includes(field.value) || winner;
+  const disabled = [1, 2].includes(field.value) || winner || players.length !== 2;
 
   const handleClick = () => {
     if (!disabled) {
@@ -17,9 +17,9 @@ const Item = ({
         (f) => (f.id !== field.id ? f : newField),
       ));
       newField.value === 1
-        ? setColor('secondary')
+        ? setColor('player1')
         : newField.value === 2
-          ? setColor('error')
+          ? setColor('player2')
           : setColor('primary');
       player === 1 ? setPlayer(2) : setPlayer(1);
     }

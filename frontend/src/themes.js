@@ -7,6 +7,24 @@ export const lightTheme = createTheme({
       'Bangers',
     ],
   },
+  palette: {
+    background: {
+      default: '#D3D3D3',
+      paper: '#FFFFFF',
+    },
+    player1: {
+      dark: '#2B7A0B',
+      main: '#5BB318',
+      light: '#7DCE13',
+      contrastText: '#FFFFFF',
+    },
+    player2: {
+      dark: '#770A67',
+      main: '#93329E',
+      light: '#B4AEE8',
+      contrastText: '#FFFFFF',
+    },
+  },
 });
 
 export const darkTheme = createTheme({

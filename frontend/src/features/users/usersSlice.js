@@ -13,6 +13,15 @@ export const getUsers = createAsyncThunk('users/getUsers', async () => {
   return response.data;
 });
 
+export const registerUser = createAsyncThunk('users/registerUser', async (data) => {
+  try {
+    const response = await axios.post(USERS_URL, data);
+    return response.data;
+  } catch (exception) {
+    return exception.response.data;
+  }
+});
+
 const initialState = usersAdapter.getInitialState({
   status: 'idle',
   error: null,
@@ -34,6 +43,9 @@ const usersSlice = createSlice({
       .addCase(getUsers.rejected, (state, action) => {
         state.status = 'failed';
         state.error = action.error.message;
+      })
+      .addCase(registerUser.fulfilled, (state, action) => {
+        usersAdapter.addOne(state, action.payload);
       });
   },
 });

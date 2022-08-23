@@ -5,7 +5,7 @@ import {
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectDic } from '../dictionary/dictionarySlice';
-import { loginUser } from './loginSlice';
+import { registerUser } from './usersSlice';
 
 const MyPaper = styled(Paper)(({ theme }) => ({
   position: 'absolute',
@@ -18,14 +18,18 @@ const MyPaper = styled(Paper)(({ theme }) => ({
   borderRadius: 3,
 }));
 
-const LoginModal = ({ user, open, handleClose }) => {
+const RegistrationModal = ({ open, handleClose }) => {
+  const [name, setName] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const dispatch = useDispatch();
   const dic = useSelector(selectDic);
 
-  const handleLogin = () => {
-    dispatch(loginUser({ username, password, user }));
+  const handleRegistration = () => {
+    dispatch(registerUser({ name, username, password }));
+    setName('');
+    setUsername('');
+    setPassword('');
     handleClose();
   };
 
@@ -47,6 +51,15 @@ const LoginModal = ({ user, open, handleClose }) => {
             <Stack>
               <TextField
                 type="text"
+                value={name}
+                label={dic.name}
+                variant="outlined"
+                required
+                onChange={(e) => setName(e.target.value)}
+                sx={{ m: 1 }}
+              />
+              <TextField
+                type="text"
                 value={username}
                 label={dic.username}
                 variant="outlined"
@@ -61,13 +74,12 @@ const LoginModal = ({ user, open, handleClose }) => {
                 variant="outlined"
                 required
                 onChange={(e) => setPassword(e.target.value)}
-                sx={{ m: 1 }}
               />
               <Stack direction="row" justifyContent="space-between" sx={{ m: 1 }}>
                 <Button onClick={handleClose}>{dic.cancel}</Button>
                 <Button
-                  onClick={handleLogin}
-                  disabled={!(username && password)}
+                  onClick={handleRegistration}
+                  disabled={!(name && username && password)}
                 >
                   {dic.login}
                 </Button>
@@ -80,4 +92,4 @@ const LoginModal = ({ user, open, handleClose }) => {
   );
 };
 
-export default LoginModal;
+export default RegistrationModal;
