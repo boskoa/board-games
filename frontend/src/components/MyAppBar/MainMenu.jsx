@@ -49,7 +49,7 @@ const MainMenu = ({ dark, setDark }) => {
         aria-controls={open ? 'basic-menu' : undefined}
         aria-haspopup="true"
         aria-expanded={open ? 'true' : undefined}
-        onClick={handleClick}
+        onClick={anchorEl ? handleClose : handleClick}
       >
         <MenuIcon fontSize="large" />
       </StyledButton>

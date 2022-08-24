@@ -74,6 +74,7 @@ const RegistrationModal = ({ open, handleClose }) => {
                 variant="outlined"
                 required
                 onChange={(e) => setPassword(e.target.value)}
+                sx={{ m: 1 }}
               />
               <Stack direction="row" justifyContent="space-between" sx={{ m: 1 }}>
                 <Button onClick={handleClose}>{dic.cancel}</Button>

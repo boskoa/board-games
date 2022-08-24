@@ -1,23 +1,21 @@
 import React from 'react';
 import Backdrop from '@mui/material/Backdrop';
-import Box from '@mui/material/Box';
+import { Paper } from '@mui/material';
 import Modal from '@mui/material/Modal';
-import Fade from '@mui/material/Fade';
+import Slide from '@mui/material/Slide';
 import Typography from '@mui/material/Typography';
 import { useSelector } from 'react-redux';
+import styled from '@emotion/styled';
 import { selectDic } from '../features/dictionary/dictionarySlice';
 
-const style = {
+const MyBox = styled(Paper)(({ theme }) => ({
   position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
+  top: '35%',
+  left: '25%',
   width: 400,
-  bgcolor: 'background.paper',
-  border: '2px solid #000',
-  boxShadow: 24,
-  p: 4,
-};
+  backgroundColor: theme.palette.warning.dark,
+  padding: 8,
+}));
 
 const WinnerModal = ({ winner, open, handleClose }) => {
   const dic = useSelector(selectDic);
@@ -35,8 +33,8 @@ const WinnerModal = ({ winner, open, handleClose }) => {
           timeout: 500,
         }}
       >
-        <Fade in={open}>
-          <Box sx={style}>
+        <Slide in={open}>
+          <MyBox elevation={8}>
             <Typography
               align="center"
               id="transition-modal-title"
@@ -53,8 +51,8 @@ const WinnerModal = ({ winner, open, handleClose }) => {
             >
               {`${winner} ${dic.won}!`}
             </Typography>
-          </Box>
-        </Fade>
+          </MyBox>
+        </Slide>
       </Modal>
     </div>
   );

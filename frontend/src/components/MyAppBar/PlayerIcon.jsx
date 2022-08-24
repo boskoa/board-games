@@ -1,5 +1,6 @@
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import {
+  ClickAwayListener,
   IconButton, Tooltip, Typography, Zoom,
 } from '@mui/material';
 import React, { useState } from 'react';
@@ -25,7 +26,6 @@ const PlayerIcon = ({ player, num, l }) => {
       <Tooltip
         TransitionComponent={Zoom}
         placement="right"
-        /* style={{ backgroundColor: "white" }} */
         title={<Typography variant="body2">{num}</Typography>}
       >
         <IconButton
@@ -33,20 +33,22 @@ const PlayerIcon = ({ player, num, l }) => {
           aria-label="account of current user"
           aria-controls="menu-appbar"
           aria-haspopup="true"
-          onClick={handleMenu}
+          onClick={anchorEl ? handleClose : handleMenu}
           color="inherit"
         >
-          <AccountCircle />
+          <ClickAwayListener onClickAway={handleClose}>
+            <AccountCircle />
+          </ClickAwayListener>
         </IconButton>
       </Tooltip>
       <MyMenu
         anchorEl={anchorEl}
         handleClose={handleClose}
         handleOpenModal={handleOpenModal}
-        id={player.id}
+        id={player}
         l={l}
       />
-      <LoginModal user={player.id} open={open} handleClose={handleCloseModal} />
+      <LoginModal user={player} open={open} handleClose={handleCloseModal} />
     </div>
   );
 };

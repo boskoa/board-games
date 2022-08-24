@@ -24,6 +24,12 @@ export const lightTheme = createTheme({
       light: '#B4AEE8',
       contrastText: '#FFFFFF',
     },
+    warning: {
+      dark: '#FFFFFF',
+      main: '#DDDDDD',
+      light: '#AAAAAA',
+      contrastText: '#000000',
+    },
   },
 });
 
@@ -36,14 +42,31 @@ export const darkTheme = createTheme({
   },
   palette: {
     error: {
-      main: '#000000',
+      dark: '#000000',
+      main: '#333333',
     },
     background: {
-      default: '#008385',
-      paper: '#005152',
+      default: '#005052',
+      paper: '#399106',
     },
     text: {
-      primary: '#80B425',
+      primary: '#FFFFFF',
+    },
+    primary: {
+      dark: '#065471',
+      main: '#09708A',
+    },
+    player1: {
+      dark: '#1A690A',
+      main: '#399106',
+      light: '#7DCE13',
+      contrastText: '#FFFFFF',
+    },
+    player2: {
+      dark: '#660956',
+      main: '#71107C',
+      light: '#B4AEE8',
+      contrastText: '#FFFFFF',
     },
   },
 });

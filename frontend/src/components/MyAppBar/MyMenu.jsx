@@ -41,7 +41,6 @@ const MyMenu = ({
         vertical: 'bottom',
         horizontal: 'right',
       }}
-      keepMounted
       transformOrigin={{
         vertical: 'top',
         horizontal: 'right',
