@@ -122,7 +122,7 @@ const TicTacToe = () => {
     <Stack
       justifyContent="center"
       alignItems="center"
-      sx={{ maxHeight: 600 }}
+      sx={{ maxHeight: 500 }}
       key={render}
     >
       <Stack
@@ -132,7 +132,7 @@ const TicTacToe = () => {
         sx={{
           height: '19vw',
           width: '68vw',
-          maxWidth: 600,
+          maxWidth: 500,
           minHeight: 60,
           mb: 2,
         }}
@@ -172,7 +172,7 @@ const TicTacToe = () => {
         sx={{
           height: '19vw',
           width: '68vw',
-          maxWidth: 600,
+          maxWidth: 500,
           minHeight: 60,
           mb: 2,
         }}
@@ -212,7 +212,7 @@ const TicTacToe = () => {
         sx={{
           height: '19vw',
           width: '68vw',
-          maxWidth: 600,
+          maxWidth: 500,
           minHeight: 60,
           mb: 2,
         }}

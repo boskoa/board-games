@@ -13,6 +13,24 @@ export const getUsers = createAsyncThunk('users/getUsers', async () => {
   return response.data;
 });
 
+// Prilagoditi posle za promene imena/lozinke;
+// ne treba za avatar (ide direktan zahtev i izena stejta bez thunka)
+export const updateUser = createAsyncThunk('users/updateUser', async (data) => {
+  try {
+    const { id, token, newData } = data;
+    const config = {
+      headers: {
+        Authorization: `bearer ${token}`,
+      },
+    };
+    console.log('NEWDATA', newData);
+    const response = await axios.put(`${USERS_URL}/${id}`, newData, config);
+    return response.data;
+  } catch (exception) {
+    return exception.response.data;
+  }
+});
+
 export const registerUser = createAsyncThunk('users/registerUser', async (data) => {
   try {
     const response = await axios.post(USERS_URL, data);
@@ -30,7 +48,12 @@ const initialState = usersAdapter.getInitialState({
 const usersSlice = createSlice({
   name: 'users',
   initialState,
-  reducers: {},
+  reducers: {
+    changeAvatar: (state, action) => {
+      const { id, avatar } = action.payload;
+      state.entities[id].avatar = avatar;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(getUsers.pending, (state) => {
@@ -46,6 +69,9 @@ const usersSlice = createSlice({
       })
       .addCase(registerUser.fulfilled, (state, action) => {
         usersAdapter.addOne(state, action.payload);
+      })
+      .addCase(updateUser.fulfilled, (state, action) => {
+        usersAdapter.upsertOne(state, action.payload);
       });
   },
 });
@@ -58,5 +84,7 @@ export const {
 
 export const selectUsersStatus = (state) => state.users.status;
 export const selectUsersError = (state) => state.users.error;
+
+export const { changeAvatar } = usersSlice.actions;
 
 export default usersSlice.reducer;

@@ -5,7 +5,7 @@ import {
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectDic } from '../dictionary/dictionarySlice';
-import { loginUser } from './loginSlice';
+import { loginUser, selectAllLogins } from './loginSlice';
 
 const MyPaper = styled(Paper)(({ theme }) => ({
   position: 'absolute',
@@ -21,10 +21,15 @@ const MyPaper = styled(Paper)(({ theme }) => ({
 const LoginModal = ({ user, open, handleClose }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const logins = useSelector(selectAllLogins);
   const dispatch = useDispatch();
   const dic = useSelector(selectDic);
 
   const handleLogin = () => {
+    if (logins[0]?.username === username || logins[1]?.username === username) {
+      console.log('Already logged in');
+      return;
+    }
     dispatch(loginUser({ username, password, user }));
     handleClose();
   };

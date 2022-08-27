@@ -4,6 +4,7 @@ import {
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import MenuIcon from '@mui/icons-material/Menu';
+import { Link } from 'react-router-dom';
 import { changeDic, selectDic } from '../../features/dictionary/dictionarySlice';
 import { MyStyledMenu } from './MyMenu';
 import RegistrationModal from '../../features/users/RegistrationModal';
@@ -81,10 +82,24 @@ const MainMenu = ({ dark, setDark }) => {
           <Typography>{dic.registration}</Typography>
         </MenuItem>
         <MenuItem onClick={handleClose}>
-          <Typography>{dic.players}</Typography>
+          <Typography>
+            <Link
+              to="users"
+              style={{ textDecoration: 'none', color: 'inherit' }}
+            >
+              {dic.players}
+            </Link>
+          </Typography>
         </MenuItem>
         <MenuItem onClick={handleClose}>
-          <Typography>{dic.statistics}</Typography>
+          <Typography>
+            <Link
+              to="stats"
+              style={{ textDecoration: 'none', color: 'inherit' }}
+            >
+              {dic.statistics}
+            </Link>
+          </Typography>
         </MenuItem>
         <MenuItem>
           <Typography sx={{ mr: 1 }}>{dic.darkTheme}</Typography>

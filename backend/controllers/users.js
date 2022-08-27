@@ -75,7 +75,7 @@ router.post('/', async (req, res, next) => {
 });
 
 router.put('/:id', tokenExtractor, async (req, res, next) => {
-  const user = await User.findByPk(req.params.id, {
+  const user = await User.findByPk(Number(req.params.id), {
     attributes: {
       exclude: ['passwordHash'],
     },
@@ -99,7 +99,7 @@ router.put('/:id', tokenExtractor, async (req, res, next) => {
     const newValues = { ...req.body };
 
     if (newValues.password) {
-      const passwordHash = bcrypt.hash(req.body.password, 10);
+      const passwordHash = await bcrypt.hash(req.body.password, 10);
       delete newValues.password;
       newValues.passwordHash = passwordHash;
     }

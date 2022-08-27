@@ -3,8 +3,10 @@ import {
 } from '@mui/material';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { selectDic } from '../../features/dictionary/dictionarySlice';
 import { logout, selectLoginsById } from '../../features/login/loginSlice';
+import { selectAllUsers } from '../../features/users/usersSlice';
 
 export const MyStyledMenu = styled(Menu)(({ theme }) => ({
   '& .MuiMenu-paper': {
@@ -19,6 +21,7 @@ const MyMenu = ({
   anchorEl, handleClose, id, handleOpenModal,
 }) => {
   const loggedIn = useSelector((state) => selectLoginsById(state, id));
+  const user = useSelector(selectAllUsers).find((u) => u.username === loggedIn?.username);
   const dispatch = useDispatch();
   const dic = useSelector(selectDic);
 
@@ -52,7 +55,14 @@ const MyMenu = ({
       {loggedIn ? (
         <div>
           <MenuItem onClick={handleClose}>
-            <Typography>{loggedIn.name}</Typography>
+            <Typography>
+              <Link
+                to={`/users/${user?.username}`}
+                style={{ textDecoration: 'none', color: 'inherit' }}
+              >
+                {user?.name}
+              </Link>
+            </Typography>
           </MenuItem>
           <MenuItem onClick={handleLogout}>
             <Typography>{dic.logout}</Typography>

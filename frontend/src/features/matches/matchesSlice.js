@@ -16,6 +16,29 @@ export const getAllMatches = createAsyncThunk('matches/getAllMatches', async () 
   }
 });
 
+export const userStats = createAsyncThunk('matches/userStats', async (username) => {
+  try {
+    const response = await axios.get(`${MATCHES_URL}/${username}`);
+    console.log('STATS', response.data);
+    return response.data;
+  } catch (exception) {
+    return exception.response.data;
+  }
+});
+
+export const allBest = createAsyncThunk('matches/allBest', async () => {
+  try {
+    const response = await axios.get(`${MATCHES_URL}/allbest`);
+    const sortedResponse = response.data.sort(
+      (a, b) => Number(b.count) - Number(a.count),
+    );
+    console.log('ALLBEST', allBest);
+    return sortedResponse;
+  } catch (exception) {
+    return exception.response.data;
+  }
+});
+
 export const newMatch = createAsyncThunk('matches/newMatch', async (data) => {
   try {
     const { token, matchData } = data;
@@ -35,6 +58,8 @@ export const newMatch = createAsyncThunk('matches/newMatch', async (data) => {
 const initialState = matchesAdapter.getInitialState({
   status: 'idle',
   error: null,
+  userStats: {},
+  allBest: [],
 });
 
 const matchesSlice = createSlice({
@@ -55,6 +80,12 @@ const matchesSlice = createSlice({
       })
       .addCase(newMatch.fulfilled, (state, action) => {
         matchesAdapter.addOne(state, action.payload);
+      })
+      .addCase(userStats.fulfilled, (state, action) => {
+        state.userStats = { ...action.payload[0] };
+      })
+      .addCase(allBest.fulfilled, (state, action) => {
+        state.allBest = action.payload;
       });
   },
 });
@@ -67,5 +98,7 @@ export const {
 
 export const selectMatchesStatus = (state) => state.matches.status;
 export const selectMatchesError = (state) => state.matches.error;
+export const selectStats = (state) => state.matches.userStats;
+export const selectAllBest = (state) => state.matches.allBest;
 
 export default matchesSlice.reducer;

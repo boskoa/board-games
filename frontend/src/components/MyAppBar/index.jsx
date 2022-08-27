@@ -3,6 +3,7 @@ import {
 } from '@mui/material';
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { selectDic } from '../../features/dictionary/dictionarySlice';
 // eslint-disable-next-line import/named
 import MainMenu from './MainMenu';
@@ -24,7 +25,11 @@ const MyAppBar = ({ dark, setDark }) => {
       <MyToolbar disableGutters>
         <PlayerIcon player={1} num={dic.player1} setL={setL} l={l} />
         <Stack direction="row" alignItems="center" flexWrap="wrap">
-          <Typography variant="h4" sx={{ mr: 1 }}>{dic.appName}</Typography>
+          <Typography variant="h4" sx={{ mr: 1 }}>
+            <Link to="/" style={{ textDecoration: 'none', color: 'inherit' }}>
+              {dic.appName}
+            </Link>
+          </Typography>
           <MainMenu dark={dark} setDark={setDark} />
         </Stack>
         <PlayerIcon player={2} num={dic.player2} setL={setL} l={l} />
