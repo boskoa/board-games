@@ -41,14 +41,9 @@ export const allBest = createAsyncThunk('matches/allBest', async () => {
 
 export const newMatch = createAsyncThunk('matches/newMatch', async (data) => {
   try {
-    const { token, matchData } = data;
-    const config = {
-      headers: {
-        Authorization: `bearer ${token}`,
-      },
-    };
-    const response = await axios.post(MATCHES_URL, matchData, config);
-    console.log('NEWMATCH', config, response.data);
+    const { matchData } = data;
+    const response = await axios.post(MATCHES_URL, matchData);
+    console.log('NEWMATCH', response.data);
     return response.data;
   } catch (exception) {
     return exception.response.data;

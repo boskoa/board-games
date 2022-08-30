@@ -17,12 +17,12 @@ const MyStack = styled(Stack)(({ theme }) => ({
   flexWrap: 'wrap',
 }));
 
-const BottomBar = () => {
+const BottomBar = ({ game }) => {
   const dic = useSelector(selectDic);
 
   return (
     <MyStack>
-      <Typography variant="h6">{dic.ticTacToe}</Typography>
+      <Typography variant="h6">{dic[game]}</Typography>
     </MyStack>
   );
 };

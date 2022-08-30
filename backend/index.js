@@ -6,6 +6,7 @@ const usersRouter = require('./controllers/users');
 const loginRouter = require('./controllers/login');
 const matchesRouter = require('./controllers/matches');
 const avatarsRouter = require('./controllers/avatar');
+const wordsRouter = require('./controllers/words');
 const { connectToDatabase } = require('./utils/db');
 const { PORT } = require('./utils/config');
 
@@ -20,6 +21,7 @@ app.use('/api/users', usersRouter);
 app.use('/api/login', loginRouter);
 app.use('/api/matches', matchesRouter);
 app.use('/api/avatar', avatarsRouter);
+app.use('/api/words', wordsRouter);
 app.all('/*', (req, res) => {
   res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });

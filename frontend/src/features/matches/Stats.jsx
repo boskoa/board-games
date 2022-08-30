@@ -20,9 +20,27 @@ const Stats = () => {
   console.log('ALLLLLBESSSTS', allBests);
 
   return (
-    <Stack>
-      <Paper sx={{ p: 2, width: 200 }}>
+    <Stack
+      direction="row"
+      justifyContent="space-evenly"
+      flexWrap="wrap"
+      sx={{ width: '100%' }}
+    >
+      <Paper sx={{ m: 1, p: 2, width: 280 }}>
         <Typography variant="h5" sx={{ mb: 2 }}>{dic.allBest}</Typography>
+        {allBests?.map((b) => (
+          <Stack
+            key={b.name}
+            direction="row"
+            justifyContent="space-between"
+          >
+            <Typography>{b.name}</Typography>
+            <Typography>{b.count}</Typography>
+          </Stack>
+        ))}
+      </Paper>
+      <Paper sx={{ m: 1, p: 2, width: 280 }}>
+        <Typography variant="h5" sx={{ mb: 2 }}>{dic.bestPerGame}</Typography>
         {allBests?.map((b) => (
           <Stack
             key={b.name}

@@ -5,7 +5,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectDic } from '../../../features/dictionary/dictionarySlice';
 import { selectAllLogins } from '../../../features/login/loginSlice';
 import { newMatch } from '../../../features/matches/matchesSlice';
+import { selectAllUsers } from '../../../features/users/usersSlice';
 import WinnerModal from '../../WinnerModal';
+import BottomBar from '../../BottomBar';
 import Item from './Item';
 
 const startFields = [
@@ -60,6 +62,7 @@ const TicTacToe = () => {
   const [render, setRender] = useState(true);
   const [player, setPlayer] = useState(1);
   const players = useSelector(selectAllLogins);
+  const users = useSelector(selectAllUsers);
   const [wPlayer, setWPlayer] = useState('');
   const [winner, setWinner] = useState(false);
   const [open, setOpen] = useState(false);
@@ -84,12 +87,14 @@ const TicTacToe = () => {
     ) {
       setWinner(true);
       setWPlayer(players.find((p) => p.id === previousPlayer).name);
-      const token = players[0].token || players[1].token;
+      const winnerT = players.find((p) => p.id === previousPlayer);
+      const winningPlayer = users.find((u) => (
+        u.username === winnerT.username));
       const loserT = players.find((p) => p.id !== previousPlayer);
+      const losingPlayer = users.find((u) => u.username === loserT.username);
       dispatch(newMatch({
-        token,
         matchData: {
-          game: 'tic_tac_toe', winnerId: previousPlayer, loserId: loserT.id,
+          game: 'tic_tac_toe', winnerId: winningPlayer.id, loserId: losingPlayer.id,
         },
       }));
       handleOpen();
@@ -248,6 +253,7 @@ const TicTacToe = () => {
       <Button variant="contained" size="large" color="success" onClick={handleNewGame}>
         <Typography variant="h6">{dic.newGame}</Typography>
       </Button>
+      <BottomBar game="ticTacToe" />
       <WinnerModal winner={wPlayer} open={open} handleClose={handleClose} />
     </Stack>
   );

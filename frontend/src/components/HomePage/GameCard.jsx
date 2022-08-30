@@ -10,7 +10,7 @@ const GameCard = ({ game }) => {
   const dic = useSelector(selectDic);
 
   return (
-    <Card sx={{ minWidth: 150, maxWidth: 300 }}>
+    <Card sx={{ minWidth: 150, maxWidth: 300, m: 1 }}>
       <CardContent>
         <Typography variant="h5">
           {game.name}

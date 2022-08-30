@@ -32,6 +32,10 @@ export const dictionary = [
     ticDescription: 'Set X or O so that they form a line made of three fields',
     play: 'Play',
     allBest: 'Most wins',
+    bestPerGame: 'Best player in individual games',
+    wordBuilder: 'Word builder',
+    wordDescription: 'Find the longest word that contains twelve randomly selected letters',
+    inputWord: 'Enter your word',
   },
   {
     player: 'Igrač',
@@ -65,5 +69,9 @@ export const dictionary = [
     ticDescription: 'Postavi isk ili ošk u odgovarajuće polje tako da formiraju liniju od tri polja',
     play: 'Igraj',
     allBest: 'Najviše pobeda',
+    bestPerGame: 'Najbolji igrači po igrama',
+    wordBuilder: 'Slagalica',
+    wordDescription: 'Pronađi najdužu reč koja se sastoji od ponuđenih slova',
+    inputWord: 'Unesi svoju reč',
   },
 ];

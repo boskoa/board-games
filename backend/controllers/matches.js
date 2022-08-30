@@ -2,7 +2,6 @@ const router = require('express').Router();
 const Match = require('../models/match');
 const User = require('../models/user');
 const { sequelize } = require('../utils/db');
-const tokenExtractor = require('../utils/tokenExtractor');
 
 router.get('/', async (req, res, next) => {
   let where = {};
@@ -53,6 +52,22 @@ router.get('/allbest', async (req, res, next) => {
   }
 });
 
+router.get('/bestpergame', async (req, res, next) => {
+  try {
+    const bestPerGame = await sequelize.query(
+      `SELECT COUNT(matches.winner_id), users.name FROM matches
+        JOIN users ON matches.winner_id=users.id
+        GROUP BY users.name;`,
+      {
+        type: sequelize.QueryTypes.SELECT,
+      },
+    );
+    res.json(bestPerGame);
+  } catch (error) {
+    next(error);
+  }
+});
+
 router.get('/:username', async (req, res, next) => {
   const user = await User.findOne({ where: { username: req.params.username } });
 
@@ -78,17 +93,7 @@ router.get('/:username', async (req, res, next) => {
   }
 });
 
-router.post('/', tokenExtractor, async (req, res, next) => {
-  const user = await User.findByPk(req.decodedToken.id, {
-    attributes: {
-      exclude: ['passwordHash'],
-    },
-  });
-
-  if (!user) {
-    res.status(401).json({ error: 'You are not authorized for this action' });
-  }
-
+router.post('/', async (req, res, next) => {
   if (!req.body.game || !req.body.winnerId || !req.body.loserId) {
     res.status(401).json({ error: 'Missing data' });
   }

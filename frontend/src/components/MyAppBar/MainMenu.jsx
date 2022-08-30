@@ -5,7 +5,9 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import MenuIcon from '@mui/icons-material/Menu';
 import { Link } from 'react-router-dom';
-import { changeDic, selectDic } from '../../features/dictionary/dictionarySlice';
+import {
+  changeAlphabet, changeDic, changeLang, selectDic,
+} from '../../features/dictionary/dictionarySlice';
 import { MyStyledMenu } from './MyMenu';
 import RegistrationModal from '../../features/users/RegistrationModal';
 
@@ -39,6 +41,8 @@ const MainMenu = ({ dark, setDark }) => {
   const handleLang = (e) => {
     const l = e.target.innerHTML === 'ENG' ? 0 : 1;
     dispatch(changeDic(l));
+    dispatch(changeLang(l));
+    dispatch(changeAlphabet(l));
     window.localStorage.setItem('gamesLanguage', JSON.stringify(l));
   };
 
