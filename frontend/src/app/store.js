@@ -3,6 +3,7 @@ import usersReducer from '../features/users/usersSlice';
 import loginReducer from '../features/login/loginSlice';
 import dictionaryReducer from '../features/dictionary/dictionarySlice';
 import matchesReducer from '../features/matches/matchesSlice';
+import wordsReducer from '../features/words/wordsSlice';
 
 const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ const store = configureStore({
     login: loginReducer,
     dictionary: dictionaryReducer,
     matches: matchesReducer,
+    words: wordsReducer,
   },
 });
 

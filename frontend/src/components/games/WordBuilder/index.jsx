@@ -2,14 +2,18 @@
 import {
   Button, Stack, Typography,
 } from '@mui/material';
-import axios from 'axios';
 import React, { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { selectAlphabet, selectLang } from '../../../features/dictionary/dictionarySlice';
+import { selectAllLogins } from '../../../features/login/loginSlice';
+import { selectAllUsers } from '../../../features/users/usersSlice';
+import { getWords, selectWords, selectWordsStatus } from '../../../features/words/wordsSlice';
 import BottomBar from '../../BottomBar';
 import LetterBox from './LetterBox';
+import PlayerApprovalModal from './PlayerApprovalModal';
 import Timer from './Timer';
 import useTimer from './useTimer';
+import WinnerModal from './WinnerModal';
 import WordInput from './WordInput';
 
 const WordBuilder = () => {
@@ -21,9 +25,25 @@ const WordBuilder = () => {
   const [wordB, setWordB] = useState('');
   const [time, setTime] = useTimer(60, disabled);
   const [timeUp, setTimeUp] = useState(false);
+  const [potentialWinners, setPotentialWinners] = useState([]);
   const lang = useSelector(selectLang);
   const alphabet = useSelector(selectAlphabet);
+  const loggedIn = useSelector(selectAllLogins);
+  const users = useSelector(selectAllUsers);
   const numOfLetters = alphabet.length;
+  const [checkerModal, setCheckerModal] = useState(false);
+  const [winnerModal, setWinnerModal] = useState(false);
+  const { player1, player2 } = useSelector(selectWords);
+  const loaded = useSelector(selectWordsStatus) === 'succeeded';
+  const dispatch = useDispatch();
+
+  const handleCloseCheckerModal = (event, reason) => {
+    if (reason && reason === 'backdropClick') {
+      // eslint-disable-next-line no-useless-return
+      return;
+    }
+    setCheckerModal(false);
+  };
 
   const indexGenerator = () => {
     const i = Math.floor(Math.random() * numOfLetters);
@@ -43,6 +63,47 @@ const WordBuilder = () => {
     setLetterList(listGenerator());
   };
 
+  const lettersChecker = (letters) => {
+    const remainingLetters = [...letterList];
+    for (let i = 0; i < letters.length; i++) {
+      const index = remainingLetters.indexOf(alphabet.indexOf(letters[i]));
+      if (index === -1) {
+        return false;
+      }
+      remainingLetters.splice(index, 1);
+    }
+    return true;
+  };
+
+  const checkWinner = (lettersA, lettersB) => {
+    const a = {
+      ...users.find((u) => u.username === loggedIn[0].username),
+      word: wordA,
+      checked: player1?.word,
+    };
+    const b = {
+      ...users.find((u) => u.username === loggedIn[1].username),
+      word: wordB,
+      checked: player2?.word,
+    };
+
+    if (!lettersA && lettersB) {
+      setPotentialWinners([b]);
+    } else if (!lettersB && lettersA) {
+      setPotentialWinners([a]);
+    } else if (wordA.length > wordB.length) {
+      setPotentialWinners([a, b]);
+    } else if (wordA.length < wordB.length) {
+      setPotentialWinners([b, a]);
+    } else if (wordA.length === wordB.length) {
+      setPotentialWinners([a, b]);
+    } else if (!lettersB && !lettersA) {
+      setPotentialWinners([false]);
+    }
+  };
+
+  // const playersApproval = (winner)
+
   useEffect(() => {
     if (timer) {
       const id = setInterval(listChanger, 400);
@@ -61,20 +122,26 @@ const WordBuilder = () => {
   };
 
   useEffect(() => {
-    const wordChecker = async (w) => {
-      const language = lang === 0 ? 'eng' : 'srb';
-      const response = await axios.get(`http://localhost:3003/api/words/${language}/?search=${w}`);
-      const exists = response.data?.word;
-      console.log(exists);
-      return exists;
-    };
-
     if (time < 1) {
       setTimeUp(true);
-      wordChecker(wordA);
-      wordChecker(wordB);
+      const language = lang === 0 ? 'eng' : 'srb';
+      dispatch(getWords({ lang: language, word1: wordA, word2: wordB }));
     }
   }, [time]);
+
+  useEffect(() => {
+    if (loaded) {
+      const lettersA = lettersChecker(wordA);
+      const lettersB = lettersChecker(wordB);
+      checkWinner(lettersA, lettersB);
+    }
+  }, [loaded]);
+
+  useEffect(() => {
+    if (potentialWinners.length) {
+      setCheckerModal(true);
+    }
+  }, [potentialWinners]);
 
   return (
     <Stack
@@ -118,6 +185,19 @@ const WordBuilder = () => {
         />
       </Stack>
       <Timer time={time} setTime={setTime} />
+      <PlayerApprovalModal
+        open={checkerModal}
+        handleClose={handleCloseCheckerModal}
+        language={lang === 0 ? 'eng' : 'srb'}
+        potentialWinners={potentialWinners}
+        setPotentialWinners={setPotentialWinners}
+        setWinnerModal={setWinnerModal}
+      />
+      <WinnerModal
+        potentialWinners={potentialWinners}
+        openWinner={winnerModal}
+        handleClose={setWinnerModal}
+      />
       <BottomBar game="wordBuilder" />
     </Stack>
   );

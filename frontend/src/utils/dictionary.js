@@ -36,6 +36,11 @@ export const dictionary = [
     wordBuilder: 'Word builder',
     wordDescription: 'Find the longest word that contains twelve randomly selected letters',
     inputWord: 'Enter your word',
+    yes: 'Yes',
+    no: 'No',
+    acceptWord: 'Do you accept the word:',
+    wordExists: 'It exists in the dictionary.',
+    wordDoesntExist: 'It doesn\'t exist',
   },
   {
     player: 'Igrač',
@@ -73,5 +78,10 @@ export const dictionary = [
     wordBuilder: 'Slagalica',
     wordDescription: 'Pronađi najdužu reč koja se sastoji od ponuđenih slova',
     inputWord: 'Unesi svoju reč',
+    yes: 'Da',
+    no: 'Ne',
+    acceptWord: 'Prihvatate li reč:',
+    wordExists: 'Postoji u rečniku.',
+    wordDoesntExist: 'Ne postoji u rečniku',
   },
 ];
