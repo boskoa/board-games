@@ -67,7 +67,6 @@ const MainMenu = ({ dark, setDark }) => {
           horizontal: 'right',
         }}
         keepMounted
-        sx={{ mt: 5 }}
         transformOrigin={{
           vertical: 'top',
           horizontal: 'right',
@@ -79,7 +78,7 @@ const MainMenu = ({ dark, setDark }) => {
         }}
       >
         <MenuItem>
-          <Typography sx={{ m: 'auto' }}>{dic.menu}</Typography>
+          <Typography sx={{ m: 'auto', mt: 5 }}>{dic.menu}</Typography>
         </MenuItem>
         <Divider />
         <MenuItem onClick={handleOpenModal}>

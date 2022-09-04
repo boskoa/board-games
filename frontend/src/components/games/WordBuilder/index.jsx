@@ -4,7 +4,7 @@ import {
 } from '@mui/material';
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectAlphabet, selectLang } from '../../../features/dictionary/dictionarySlice';
+import { selectAlphabet, selectDic, selectLang } from '../../../features/dictionary/dictionarySlice';
 import { selectAllLogins } from '../../../features/login/loginSlice';
 import { selectAllUsers } from '../../../features/users/usersSlice';
 import { getWords, selectWords, selectWordsStatus } from '../../../features/words/wordsSlice';
@@ -35,6 +35,7 @@ const WordBuilder = () => {
   const [winnerModal, setWinnerModal] = useState(false);
   const { player1, player2 } = useSelector(selectWords);
   const loaded = useSelector(selectWordsStatus) === 'succeeded';
+  const dic = useSelector(selectDic);
   const dispatch = useDispatch();
 
   const handleCloseCheckerModal = (event, reason) => {
@@ -63,11 +64,32 @@ const WordBuilder = () => {
     setLetterList(listGenerator());
   };
 
-  const lettersChecker = (letters) => {
-    const remainingLetters = [...letterList];
-    if (!letters.length) {
+  const stringTransform = (word) => {
+    const doubles = [['n', 'j'], ['l', 'j'], ['d', 'ž']];
+    const wordArray = word.split('');
+
+    const transformedWord = wordArray.map((w, i) => {
+      for (let x = 0; x < doubles.length; x++) {
+        if (doubles[x][0] === w && doubles[x][1] === wordArray[i + 1]) {
+          const changedW = w.concat(wordArray[i + 1]);
+          wordArray[i + 1] = '';
+          return changedW;
+        }
+      }
+      return w;
+    });
+
+    return transformedWord.filter((l) => l !== '');
+  };
+
+  const lettersChecker = (word) => {
+    const remainingLetters = letterList.map((l) => l);
+
+    if (!word.length) {
       return false;
     }
+
+    const letters = stringTransform(word);
 
     for (let i = 0; i < letters.length; i++) {
       const index = remainingLetters.indexOf(alphabet.indexOf(letters[i]));
@@ -105,8 +127,6 @@ const WordBuilder = () => {
       setPotentialWinners([a, b]);
     }
   };
-
-  // const playersApproval = (winner)
 
   useEffect(() => {
     if (timer) {
@@ -147,6 +167,18 @@ const WordBuilder = () => {
     }
   }, [potentialWinners]);
 
+  const handleNewGame = () => {
+    setTimer(false);
+    clearInterval(intervalId);
+    setTime(0);
+    setDisabled(false);
+    setLetterList([]);
+    setTimeout(() => setTimeUp(false), 200);
+    setWordA('');
+    setWordB('');
+    setTimeout(() => setTime(60), 200);
+  };
+
   return (
     <Stack
       sx={{
@@ -172,7 +204,12 @@ const WordBuilder = () => {
           ? <Typography variant="body1">Stop</Typography>
           : <Typography variant="body1">Start</Typography>}
       </Button>
-      <Stack direction="row" justifyContent="space-between" flexWrap="wrap">
+      <Stack
+        direction="row"
+        justifyContent="space-between"
+        flexWrap="wrap"
+        sx={{ p: 1 }}
+      >
         <WordInput
           timeUp={timeUp}
           open={disabled}
@@ -188,6 +225,13 @@ const WordBuilder = () => {
           side="left"
         />
       </Stack>
+      <Button
+        variant="contained"
+        sx={{ width: 100, alignSelf: 'center', mt: 3 }}
+        onClick={handleNewGame}
+      >
+        {dic.newGame}
+      </Button>
       <Timer time={time} setTime={setTime} />
       <PlayerApprovalModal
         open={checkerModal}
@@ -196,6 +240,7 @@ const WordBuilder = () => {
         potentialWinners={potentialWinners}
         setPotentialWinners={setPotentialWinners}
         setWinnerModal={setWinnerModal}
+        loggedIn={loggedIn}
       />
       <WinnerModal
         potentialWinners={potentialWinners}

@@ -13,8 +13,6 @@ export const getUsers = createAsyncThunk('users/getUsers', async () => {
   return response.data;
 });
 
-// Prilagoditi posle za promene imena/lozinke;
-// ne treba za avatar (ide direktan zahtev i izena stejta bez thunka)
 export const updateUser = createAsyncThunk('users/updateUser', async (data) => {
   try {
     const { id, token, newData } = data;
@@ -23,7 +21,6 @@ export const updateUser = createAsyncThunk('users/updateUser', async (data) => {
         Authorization: `bearer ${token}`,
       },
     };
-    console.log('NEWDATA', newData);
     const response = await axios.put(`${USERS_URL}/${id}`, newData, config);
     return response.data;
   } catch (exception) {

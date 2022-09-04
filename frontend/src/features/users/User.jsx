@@ -58,7 +58,7 @@ const User = () => {
           sx={{ width: '100%' }}
         >
           <Stack justifyContent="center" alignItems="center" sx={{ width: 150, p: 1, marginRight: 1 }}>
-            {avatarCondition
+            {!avatarCondition
               ? <Avatar src={avatar} sx={{ height: 150, width: 150 }} />
               : <AccountCircle sx={{ height: 150, width: 150 }} />}
           </Stack>

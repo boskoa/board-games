@@ -55,9 +55,14 @@ router.get('/allbest', async (req, res, next) => {
 router.get('/bestpergame', async (req, res, next) => {
   try {
     const bestPerGame = await sequelize.query(
-      `SELECT COUNT(matches.winner_id), users.name FROM matches
+      `SELECT
+        DISTINCT ON (game) game,
+        users.name,
+        COUNT(users.name) as count
+        FROM matches
         JOIN users ON matches.winner_id=users.id
-        GROUP BY users.name;`,
+        GROUP BY users.name, game
+        ORDER BY game, count DESC;`,
       {
         type: sequelize.QueryTypes.SELECT,
       },

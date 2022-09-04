@@ -9,7 +9,6 @@ const matchesAdapter = createEntityAdapter();
 export const getAllMatches = createAsyncThunk('matches/getAllMatches', async () => {
   try {
     const response = await axios.get(MATCHES_URL);
-    console.log('MATCHES', response.data);
     return response.data;
   } catch (exception) {
     return exception.response.data;
@@ -19,7 +18,6 @@ export const getAllMatches = createAsyncThunk('matches/getAllMatches', async () 
 export const userStats = createAsyncThunk('matches/userStats', async (username) => {
   try {
     const response = await axios.get(`${MATCHES_URL}/${username}`);
-    console.log('STATS', response.data);
     return response.data;
   } catch (exception) {
     return exception.response.data;
@@ -32,7 +30,18 @@ export const allBest = createAsyncThunk('matches/allBest', async () => {
     const sortedResponse = response.data.sort(
       (a, b) => Number(b.count) - Number(a.count),
     );
-    console.log('ALLBEST', allBest);
+    return sortedResponse;
+  } catch (exception) {
+    return exception.response.data;
+  }
+});
+
+export const bestPerGame = createAsyncThunk('matches/bestPerGame', async () => {
+  try {
+    const response = await axios.get(`${MATCHES_URL}/bestpergame`);
+    const sortedResponse = response.data.sort(
+      (a, b) => Number(b.count) - Number(a.count),
+    );
     return sortedResponse;
   } catch (exception) {
     return exception.response.data;
@@ -43,7 +52,6 @@ export const newMatch = createAsyncThunk('matches/newMatch', async (data) => {
   try {
     const { matchData } = data;
     const response = await axios.post(MATCHES_URL, matchData);
-    console.log('NEWMATCH', response.data);
     return response.data;
   } catch (exception) {
     return exception.response.data;
@@ -55,6 +63,7 @@ const initialState = matchesAdapter.getInitialState({
   error: null,
   userStats: {},
   allBest: [],
+  bestPerGame: [],
 });
 
 const matchesSlice = createSlice({
@@ -81,6 +90,9 @@ const matchesSlice = createSlice({
       })
       .addCase(allBest.fulfilled, (state, action) => {
         state.allBest = action.payload;
+      })
+      .addCase(bestPerGame.fulfilled, (state, action) => {
+        state.bestPerGame = action.payload;
       });
   },
 });
@@ -95,5 +107,6 @@ export const selectMatchesStatus = (state) => state.matches.status;
 export const selectMatchesError = (state) => state.matches.error;
 export const selectStats = (state) => state.matches.userStats;
 export const selectAllBest = (state) => state.matches.allBest;
+export const selectBestPerGame = (state) => state.matches.bestPerGame;
 
 export default matchesSlice.reducer;

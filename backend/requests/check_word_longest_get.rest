@@ -1,0 +1,2 @@
+GET http://localhost:3003/api/words/srb/longest/?search=ateafi
+Content-Type: application/json

@@ -40,7 +40,7 @@ export const dictionary = [
     no: 'No',
     acceptWord: 'Do you accept the word',
     wordExists: 'It exists in the dictionary.',
-    wordDoesntExist: 'It doesn\'t exist',
+    wordDoesntExist: 'It doesn\'t exist in the dictionary',
     confirm: 'Confirm',
     nobodyWon: 'Nobody won',
   },

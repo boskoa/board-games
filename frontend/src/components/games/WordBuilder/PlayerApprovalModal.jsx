@@ -4,8 +4,10 @@ import {
 } from '@mui/material';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { selectDic } from '../../../features/dictionary/dictionarySlice';
+import { newMatch } from '../../../features/matches/matchesSlice';
+import { selectAllUsers } from '../../../features/users/usersSlice';
 
 const MyPaper = styled(Paper)(({ theme }) => ({
   position: 'absolute',
@@ -19,9 +21,17 @@ const MyPaper = styled(Paper)(({ theme }) => ({
 }));
 
 const PlayerApproval = ({
-  open, handleClose, language, potentialWinners, setPotentialWinners, setWinnerModal,
+  open,
+  handleClose,
+  language,
+  potentialWinners,
+  setPotentialWinners,
+  setWinnerModal,
+  loggedIn,
 }) => {
   const dic = useSelector(selectDic);
+  const users = useSelector(selectAllUsers);
+  const dispatch = useDispatch();
   const [disabler, setDisabler] = useState(0);
 
   const handleNewWord = async (checked, newWord) => {
@@ -50,6 +60,23 @@ const PlayerApproval = ({
     handleDeleteWord(checked, word);
     setPotentialWinners((prev) => prev.filter((p) => p.word !== word));
     setDisabler((prev) => prev - 1);
+  };
+
+  const confirm = () => {
+    setWinnerModal(true);
+    handleClose();
+    if (potentialWinners.length) {
+      const winnerId = potentialWinners[0].id;
+      const loser = loggedIn.filter(
+        (l) => l.name !== potentialWinners[0].name,
+      )[0];
+      const loserId = users.filter((u) => u.name === loser.name)[0].id;
+      dispatch(newMatch({
+        matchData: {
+          game: 'word_builder', winnerId, loserId,
+        },
+      }));
+    }
   };
 
   useEffect(() => {
@@ -106,10 +133,7 @@ const PlayerApproval = ({
                 disabled={disabler !== 0}
                 size="small"
                 variant="contained"
-                onClick={() => {
-                  setWinnerModal(true);
-                  handleClose();
-                }}
+                onClick={confirm}
               >
                 <Typography variant="body4">{dic.confirm}</Typography>
               </Button>

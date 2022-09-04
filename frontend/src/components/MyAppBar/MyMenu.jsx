@@ -12,7 +12,6 @@ export const MyStyledMenu = styled(Menu)(({ theme }) => ({
   '& .MuiMenu-paper': {
     backgroundColor: theme.palette.error.main,
     color: theme.palette.error.contrastText,
-    marginTop: 6,
   },
   zIndex: 1099,
 }));
