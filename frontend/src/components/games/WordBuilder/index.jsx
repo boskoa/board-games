@@ -65,6 +65,10 @@ const WordBuilder = () => {
 
   const lettersChecker = (letters) => {
     const remainingLetters = [...letterList];
+    if (!letters.length) {
+      return false;
+    }
+
     for (let i = 0; i < letters.length; i++) {
       const index = remainingLetters.indexOf(alphabet.indexOf(letters[i]));
       if (index === -1) {
@@ -91,14 +95,14 @@ const WordBuilder = () => {
       setPotentialWinners([b]);
     } else if (!lettersB && lettersA) {
       setPotentialWinners([a]);
+    } else if (!lettersB && !lettersA) {
+      setPotentialWinners(false);
     } else if (wordA.length > wordB.length) {
       setPotentialWinners([a, b]);
     } else if (wordA.length < wordB.length) {
       setPotentialWinners([b, a]);
     } else if (wordA.length === wordB.length) {
       setPotentialWinners([a, b]);
-    } else if (!lettersB && !lettersA) {
-      setPotentialWinners([false]);
     }
   };
 
@@ -146,7 +150,7 @@ const WordBuilder = () => {
   return (
     <Stack
       sx={{
-        width: '100%', height: '75vh', mt: 5,
+        width: '100vw', height: '75vh', mt: 5,
       }}
     >
       <Stack direction="row" justifyContent="center" sx={{ width: '100%' }}>

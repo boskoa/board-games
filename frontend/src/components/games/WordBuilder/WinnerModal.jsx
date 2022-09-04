@@ -38,7 +38,11 @@ const WinnerModal = ({
         <Slide in={openWinner} direction="up">
           <MyPaper elevation={5}>
             <Stack direction="row" justifyContent="center">
-              <Typography variant="h2">{`${potentialWinners[0]?.name} ${dic.won}`}</Typography>
+              <Typography variant="h2">
+                {potentialWinners.length
+                  ? `${potentialWinners[0]?.name} ${dic.won}`
+                  : `${dic.nobodyWon}`}
+              </Typography>
             </Stack>
           </MyPaper>
         </Slide>

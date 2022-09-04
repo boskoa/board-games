@@ -21,7 +21,7 @@ const MyAppBar = ({ dark, setDark }) => {
   const dic = useSelector(selectDic);
 
   return (
-    <AppBar position="absolute">
+    <AppBar position="absolute" sx={{ width: '100%' }}>
       <MyToolbar disableGutters>
         <PlayerIcon player={1} num={dic.player1} setL={setL} l={l} />
         <Stack direction="row" alignItems="center" flexWrap="wrap">

@@ -5,7 +5,7 @@ import styled from '@emotion/styled';
 import { selectDic } from '../features/dictionary/dictionarySlice';
 
 const MyStack = styled(Stack)(({ theme }) => ({
-  position: 'fixed',
+  position: 'absolute',
   top: 'auto',
   bottom: 0,
   right: 0,
@@ -13,7 +13,7 @@ const MyStack = styled(Stack)(({ theme }) => ({
   backgroundColor: theme.palette.error.main,
   flexDirection: 'row',
   justifyContent: 'center',
-  width: '100vw',
+  width: '100%',
   flexWrap: 'wrap',
 }));
 

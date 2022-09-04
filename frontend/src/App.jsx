@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Routes, Route } from 'react-router-dom';
 import { ThemeProvider } from '@emotion/react';
-import { Container, CssBaseline, Stack } from '@mui/material';
+import { Box, CssBaseline, Stack } from '@mui/material';
 import {
   alreadyLogged,
 } from './features/login/loginSlice';
@@ -40,7 +40,7 @@ const App = () => {
   return (
     <ThemeProvider theme={dark ? darkTheme : lightTheme} enableColorScheme>
       <CssBaseline />
-      <Container>
+      <Box sx={{ width: '100vw' }}>
         <MyAppBar dark={dark} setDark={setDark} />
         <Stack alignItems="center" sx={{ mt: 10 }}>
           <Routes>
@@ -52,7 +52,7 @@ const App = () => {
             <Route path="/" element={<HomePage />} />
           </Routes>
         </Stack>
-      </Container>
+      </Box>
     </ThemeProvider>
   );
 };

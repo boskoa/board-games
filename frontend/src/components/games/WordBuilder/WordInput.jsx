@@ -21,7 +21,7 @@ const WordInput = ({
   const dic = useSelector(selectDic);
 
   return (
-    <Slide in={open} direction={side}>
+    <Slide in={open} direction="up">
       <MyPaper elevation={5} sx={side === 'left' ? { ml: 'auto' } : null}>
         <Stack>
           <TextField
